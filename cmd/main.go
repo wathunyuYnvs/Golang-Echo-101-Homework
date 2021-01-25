@@ -1,6 +1,9 @@
 package main
 
-import "myecho"
+import (
+	"myecho"
+	_ "myecho/docs"
+)
 
 func main() {
 	myecho.InitApp()

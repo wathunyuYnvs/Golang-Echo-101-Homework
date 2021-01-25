@@ -16,6 +16,15 @@ func PublicEndpointHadlerInit(r *echo.Group, resource *db.Resource) {
 	r.POST("/users/register", register())
 }
 
+// @Summary Login
+// @Description Login
+// @Tags Public
+// @Accept json
+// @Produce json
+// @Param login body user.UserLoginRequestBody true "Logged in"
+// @Success 200 {string} string
+// @Failure 417 {string} string
+// @Router /public/users/login [post]
 func login() func(c echo.Context) error {
 	return func(c echo.Context) error {
 		newUser := UserLoginRequestBody{}
@@ -31,6 +40,16 @@ func login() func(c echo.Context) error {
 		return c.String(http.StatusOK, t)
 	}
 }
+
+// @Summary Register
+// @Description Register
+// @Tags Public
+// @Accept json
+// @Produce json
+// @Param register body user.UserRegisterRequestBody true "Register"
+// @Success 201 {object} user.UserLoginResponseBody
+// @Failure 417 {string} string
+// @Router /public/users/register [post]
 func register() func(c echo.Context) error {
 	return func(c echo.Context) error {
 		newUser := UserRegisterRequestBody{}
@@ -41,6 +60,7 @@ func register() func(c echo.Context) error {
 		if err != nil {
 			return c.String(http.StatusExpectationFailed, err.Error())
 		}
-		return c.JSON(http.StatusCreated, userDetail)
+		t, _ := middlewares.Sign(middlewares.Payload{ID: userDetail.ID, Name: userDetail.Name})
+		return c.JSON(http.StatusCreated, t)
 	}
 }

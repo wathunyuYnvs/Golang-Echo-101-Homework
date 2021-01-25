@@ -1,0 +1,222 @@
+basePath: /
+definitions:
+  user.ChangePaswordRequestBody:
+    properties:
+      confirmPassword:
+        type: string
+      newPassword:
+        type: string
+      oldPassword:
+        type: string
+    type: object
+  user.EditProfileResponseBody:
+    type: object
+  user.ProfileResponseBody:
+    properties:
+      age:
+        type: integer
+      email:
+        type: string
+      name:
+        type: string
+    type: object
+  user.UserLoginRequestBody:
+    properties:
+      email:
+        type: string
+      password:
+        type: string
+    type: object
+  user.UserLoginResponseBody:
+    properties:
+      id:
+        type: string
+      name:
+        type: string
+      token:
+        type: string
+    type: object
+  user.UserRegisterRequestBody:
+    properties:
+      age:
+        type: integer
+      confirmPassword:
+        type: string
+      email:
+        type: string
+      name:
+        type: string
+      password:
+        type: string
+    type: object
+  user.UserRequestBody:
+    properties:
+      age:
+        type: integer
+      name:
+        type: string
+    type: object
+host: localhost:1323
+info:
+  contact: {}
+  description: User Management API
+  title: Golang - Echo 101
+  version: "1.0"
+paths:
+  /private/users/changePassword:
+    put:
+      consumes:
+      - application/json
+      description: Edit password
+      parameters:
+      - description: Bearer sfds1f32ds....fsd
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      - description: Edit password
+        in: body
+        name: password
+        required: true
+        schema:
+          $ref: '#/definitions/user.ChangePaswordRequestBody'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/user.EditProfileResponseBody'
+        "400":
+          description: Bad Request
+          schema:
+            type: string
+        "417":
+          description: Expectation Failed
+          schema:
+            type: string
+      security:
+      - ApiKeyAuth: []
+      summary: Change password
+      tags:
+      - Private
+  /private/users/profile:
+    get:
+      consumes:
+      - application/json
+      description: Get user information
+      parameters:
+      - description: Bearer sfds1f32ds....fsd
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/user.ProfileResponseBody'
+        "400":
+          description: Bad Request
+          schema:
+            type: string
+        "417":
+          description: Expectation Failed
+          schema:
+            type: string
+      security:
+      - ApiKeyAuth: []
+      summary: Get profile
+      tags:
+      - Private
+    put:
+      consumes:
+      - application/json
+      description: Edit user information
+      parameters:
+      - description: Bearer sfds1f32ds....fsd
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      - description: Edit user
+        in: body
+        name: user
+        required: true
+        schema:
+          $ref: '#/definitions/user.UserRequestBody'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/user.EditProfileResponseBody'
+        "400":
+          description: Bad Request
+          schema:
+            type: string
+        "417":
+          description: Expectation Failed
+          schema:
+            type: string
+      security:
+      - ApiKeyAuth: []
+      summary: Edit Profile
+      tags:
+      - Private
+  /public/users/login:
+    post:
+      consumes:
+      - application/json
+      description: Login
+      parameters:
+      - description: Logged in
+        in: body
+        name: login
+        required: true
+        schema:
+          $ref: '#/definitions/user.UserLoginRequestBody'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: string
+        "417":
+          description: Expectation Failed
+          schema:
+            type: string
+      summary: Login
+      tags:
+      - Public
+  /public/users/register:
+    post:
+      consumes:
+      - application/json
+      description: Register
+      parameters:
+      - description: Register
+        in: body
+        name: register
+        required: true
+        schema:
+          $ref: '#/definitions/user.UserRegisterRequestBody'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/user.UserLoginResponseBody'
+        "417":
+          description: Expectation Failed
+          schema:
+            type: string
+      summary: Register
+      tags:
+      - Public
+swagger: "2.0"

@@ -8,6 +8,7 @@ import (
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/echo/v4/middleware"
 	"github.com/sirupsen/logrus"
+	echoSwagger "github.com/swaggo/echo-swagger"
 )
 
 const (
@@ -15,6 +16,11 @@ const (
 	connectionStringTemplate = "mongodb://%s"
 )
 
+// @title Golang - Echo 101
+// @description User Management API
+// @version 1.0
+// @host localhost:1323
+// @BasePath /
 func InitApp() {
 	e := echo.New()
 	e.Use(middleware.Logger())
@@ -32,6 +38,8 @@ func InitApp() {
 
 	pbRoute := e.Group("/public")
 	user.PublicEndpointHadlerInit(pbRoute, resource)
+
+	e.GET("/swagger/*", echoSwagger.WrapHandler)
 
 	e.Logger.Fatal(e.Start(":1323"))
 }
